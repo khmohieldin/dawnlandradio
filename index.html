@@ -3,38 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيقات مطور خالد محي الدين</title>
+    <title>Anubis Apps - متجر التطبيقات</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body { 
             font-family: 'Cairo', sans-serif; 
-            background-color: #ffffff; /* لون خلفية جوجل بلاي */
-            color: #202124;
+            /* لون ورق البردي أو جدران الحجر الجيري الفاتح */
+            background-color: #f9f6f0; 
+            color: #1a0e08; /* لون بني داكن جداً للقراءة المريحة */
+            font-weight: 600; /* جعل الخط الأساسي سميك */
         }
-        .play-shadow {
-            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        .pharaoh-font {
+            font-family: 'Aref Ruqaa', serif;
         }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
+        /* ألوان وتأثيرات خفيفة جداً لتحسين الأداء */
+        .sand-card {
+            background-color: #ffffff;
+            border: 1px solid #eaddc4;
+            box-shadow: 0 2px 4px rgba(62, 39, 35, 0.05);
         }
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        .sand-card:hover {
+            border-color: #cda870;
+            box-shadow: 0 4px 8px rgba(62, 39, 35, 0.08);
         }
+        .btn-gold {
+            background-color: #b88a44;
+            color: #ffffff;
+            border: 1px solid #a67a39;
+        }
+        .btn-gold:hover {
+            background-color: #a67a39;
+        }
+        .btn-outline {
+            background-color: #ffffff;
+            border: 1px solid #cda870;
+            color: #b88a44;
+        }
+        .btn-outline:hover {
+            background-color: #fcfaf5;
+            border-color: #b88a44;
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        playGreen: '#01875f', /* أخضر جوجل بلاي المميز */
-                        playGreenHover: '#017251',
-                        playGray: '#5f6368',
-                        playLightGray: '#f1f3f4',
-                        playBorder: '#e8eaed'
+                        pharaohSand: '#f9f6f0',
+                        pharaohStone: '#eaddc4',
+                        pharaohGold: '#b88a44',
+                        pharaohBrown: '#1a0e08'
                     }
                 }
             }
@@ -43,189 +66,194 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
-    <!-- Top Navigation Bar (Play Store Style) -->
-    <header class="border-b border-playBorder py-3 sticky top-0 bg-white z-50">
+    <header class="border-b-2 border-[#eaddc4] py-3 sticky top-0 bg-[#f9f6f0] z-50 shadow-sm">
         <div class="container mx-auto px-4 max-w-5xl flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fab fa-google-play text-2xl" style="color: #4285F4;"></i>
-                <span class="text-xl font-medium text-gray-600 hidden sm:block">Google Play</span>
-            </div>
-            <div class="flex-1 max-w-2xl mx-4">
-                <div class="bg-playLightGray rounded-full flex items-center px-4 py-2">
-                    <i class="fas fa-search text-playGray"></i>
-                    <input type="text" placeholder="البحث عن تطبيقات..." class="bg-transparent border-none outline-none px-3 w-full text-sm" disabled>
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-3">
+                <!-- شعار أنوبيس بألوان بنية/ذهبية متناسبة مع الخلفية الفاتحة (بدون أنيميشن ليظل خفيفاً) -->
+                <svg class="w-9 h-9" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 50 C 30 20, 70 20, 90 50 C 70 80, 30 80, 10 50 Z" stroke="#b88a44" stroke-width="5" fill="#fcfaf5"/>
+                    <circle cx="50" cy="50" r="14" fill="#1a0e08"/>
+                    <path d="M50 64 L 50 88 L 40 83" stroke="#b88a44" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M90 50 C 80 40, 70 35, 60 30" stroke="#b88a44" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-pharaohBrown pharaoh-font tracking-wide">Anubis Apps</h1>
+                    <p class="text-sm font-bold text-[#4a2b18] mt-0.5">تطبيقات مطور خالد محي الدين</p>
                 </div>
             </div>
-            <div>
-                <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
+            
+            <!-- Search Bar (Desktop) -->
+            <div class="flex-1 max-w-md mx-4 hidden md:block">
+                <div class="bg-white border-2 border-[#eaddc4] rounded flex items-center px-3 py-2 shadow-sm">
+                    <i class="fas fa-search text-[#5c3e26]"></i>
+                    <input type="text" placeholder="البحث عن تطبيقات..." class="bg-transparent border-none outline-none px-3 w-full text-sm font-bold text-pharaohBrown placeholder-[#5c3e26]" disabled>
+                </div>
+            </div>
+            
+            <!-- Developer Badge -->
+            <div class="hidden sm:flex items-center gap-2 text-sm">
+                <div class="w-9 h-9 rounded border-2 border-pharaohGold bg-white text-pharaohGold flex items-center justify-center font-extrabold shadow-sm text-lg">
                     خ
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Developer Header Section -->
-    <div class="container mx-auto px-4 max-w-5xl py-8">
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 border-b border-playBorder pb-8">
-            <div class="w-24 h-24 bg-playGreen text-white rounded-full flex items-center justify-center text-4xl font-bold shadow-sm">
-                <i class="fas fa-code"></i>
-            </div>
-            <div class="text-center md:text-right flex-1">
-                <h1 class="text-3xl sm:text-4xl font-medium text-gray-900 mb-2">تطبيقات مطور خالد محي الدين</h1>
-                <div class="flex flex-wrap justify-center md:justify-start items-center gap-4 text-playGray font-medium">
-                    <span class="flex items-center gap-1"><i class="fas fa-phone-alt"></i> 01018282460</span>
-                    <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt"></i> مصر</span>
-                    <span class="text-green-600 flex items-center gap-1"><i class="fas fa-check-circle"></i> مطور معتمد</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Apps Grid Section -->
-    <main class="flex-grow container mx-auto px-4 max-w-5xl pb-12">
-        <h2 class="text-xl font-medium mb-6 flex items-center justify-between">
-            <span>جميع التطبيقات</span>
-            <i class="fas fa-arrow-left text-playGray text-sm"></i>
+    <main class="flex-grow container mx-auto px-4 max-w-5xl py-8">
+        
+        <h2 class="text-2xl font-extrabold mb-6 flex items-center gap-2 text-pharaohBrown">
+            <i class="fas fa-th-large text-pharaohGold"></i> جميع التطبيقات
         </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             
-            <!-- App 0 (NEW): My Tab App -->
-            <div class="flex flex-col sm:flex-row gap-5 p-4 rounded-2xl hover:bg-playLightGray transition duration-200">
-                <img src="https://scontent-hbe1-2.xx.fbcdn.net/v/t39.30808-6/702621357_122095103331334677_5715481733913550242_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=O3UkNfCub4sQ7kNvwHk-49G&_nc_oc=AdqRF67R1FH5ZXY6uE5BYdzBTA1Bt71rFLlbaPKsn9Jr0ggCjYuzlkGG2i7x4tJabXE&_nc_zt=23&_nc_ht=scontent-hbe1-2.xx&_nc_gid=uwhWMU8wOt3qNmS2iBbbNw&_nc_ss=7b2a8&oh=00_Af733Qsm-cD2IIp3N4vNiT9F9rZtfb5BJ19cqcbYfFfibw&oe=6A113BF7" alt="تطبيق ماي تاب" class="w-28 h-28 rounded-2xl play-shadow object-cover bg-white mx-auto sm:mx-0">
-                <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
-                    <h3 class="text-2xl font-medium text-gray-900">تطبيق ماي تاب</h3>
-                    <p class="text-playGreen font-medium text-sm mt-1">خالد محي الدين</p>
-                    <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-xs text-playGray font-medium">
-                        <span class="flex items-center"><span class="text-gray-900 ml-1">4.9</span> <i class="fas fa-star text-xs text-gray-900"></i></span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span>1K+ التنزيلات</span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span class="border border-gray-300 rounded px-1">E</span>
+            <!-- App 1: Mytab -->
+            <div class="sand-card p-4 rounded-lg relative transition-transform duration-200 hover:-translate-y-1 border-2 border-[#cda870] bg-[#fffdfa] shadow-md">
+                <div class="absolute top-0 right-0 bg-[#b88a44] text-white text-[11px] font-extrabold px-3 py-1 rounded-bl-lg rounded-tr-lg">التطبيق الأساسي</div>
+                <div class="flex flex-col sm:flex-row gap-4 mt-2">
+                    <div class="w-24 h-24 mx-auto sm:mx-0 p-1 bg-white border-2 border-[#eaddc4] rounded shadow-sm shrink-0">
+                        <img src="https://scontent-hbe1-2.xx.fbcdn.net/v/t39.30808-6/702621357_122095103331334677_5715481733913550242_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=O3UkNfCub4sQ7kNvwHk-49G&_nc_oc=AdqRF67R1FH5ZXY6uE5BYdzBTA1Bt71rFLlbaPKsn9Jr0ggCjYuzlkGG2i7x4tJabXE&_nc_zt=23&_nc_ht=scontent-hbe1-2.xx&_nc_gid=uwhWMU8wOt3qNmS2iBbbNw&_nc_ss=7b2a8&oh=00_Af733Qsm-cD2IIp3N4vNiT9F9rZtfb5BJ19cqcbYfFfibw&oe=6A113BF7" alt="تطبيق Mytab" class="w-full h-full object-cover rounded-sm">
                     </div>
-                    <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/mytab.v3.apk"
-                        class="mt-4 bg-playGreen hover:bg-playGreenHover text-white text-center py-2 px-8 rounded-full font-medium transition-colors w-full sm:w-fit">
-                        تثبيت (APK)
-                    </a>
+                    <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
+                        <h3 class="text-xl font-extrabold text-pharaohBrown">تطبيق Mytab</h3>
+                        <p class="text-[#4a2b18] font-bold text-sm mt-1">تطبيق تواصل اجتماعي</p>
+                        <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-sm text-[#3e2414] font-extrabold">
+                            <span class="flex items-center gap-1 text-[#b88a44]">5.0 <i class="fas fa-star text-[11px]"></i></span>
+                            <span class="border-l-2 border-[#d4c39c] h-4"></span>
+                            <span>أحدث إصدار</span>
+                        </div>
+                        <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/mytab.v3.apk"
+                            class="mt-3 btn-gold text-center py-2 px-6 rounded font-extrabold transition-colors w-full sm:w-fit text-sm flex items-center justify-center gap-2 shadow-md">
+                            <i class="fas fa-download text-lg"></i> تنزيل التطبيق (APK)
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- App 1: Radio Khaled -->
-            <div class="flex flex-col sm:flex-row gap-5 p-4 rounded-2xl hover:bg-playLightGray transition duration-200">
-                <img src="https://i.ibb.co/Mxy6JZHk/unnamed.png" alt="راديو خالد" class="w-28 h-28 rounded-2xl play-shadow object-contain bg-white mx-auto sm:mx-0">
-                <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
-                    <h3 class="text-2xl font-medium text-gray-900">راديو خالد</h3>
-                    <p class="text-playGreen font-medium text-sm mt-1">خالد محي الدين</p>
-                    <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-xs text-playGray font-medium">
-                        <span class="flex items-center"><span class="text-gray-900 ml-1">4.8</span> <i class="fas fa-star text-xs text-gray-900"></i></span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span>10K+ التنزيلات</span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span class="border border-gray-300 rounded px-1">E</span>
+            <!-- App 2: Radio Khaled -->
+            <div class="sand-card p-4 rounded-lg relative transition-transform duration-200 hover:-translate-y-1">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-24 h-24 mx-auto sm:mx-0 p-1 bg-white border-2 border-[#eaddc4] rounded shadow-sm shrink-0">
+                        <img src="https://i.ibb.co/Mxy6JZHk/unnamed.png" alt="راديو خالد" class="w-full h-full object-contain rounded-sm">
                     </div>
-                    <a href="https://github.com/khmohieldin/radiokh/raw/refs/heads/main/radiokhaled.apk"
-                        class="mt-4 bg-playGreen hover:bg-playGreenHover text-white text-center py-2 px-8 rounded-full font-medium transition-colors w-full sm:w-fit">
-                        تثبيت (APK)
-                    </a>
+                    <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
+                        <h3 class="text-xl font-extrabold text-pharaohBrown">راديو خالد</h3>
+                        <p class="text-[#4a2b18] font-bold text-sm mt-1">خالد محي الدين</p>
+                        <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-sm text-[#3e2414] font-extrabold">
+                            <span class="flex items-center gap-1 text-[#b88a44]">4.8 <i class="fas fa-star text-[11px]"></i></span>
+                            <span class="border-l-2 border-[#d4c39c] h-4"></span>
+                            <span>10K+ تنزيل</span>
+                        </div>
+                        <a href="https://github.com/khmohieldin/radiokh/raw/refs/heads/main/radiokhaled.apk"
+                            class="mt-3 bg-[#eaddc4] hover:bg-[#d4c39c] text-[#1a0e08] border-2 border-[#cda870] text-center py-2 px-6 rounded font-extrabold transition-colors w-full sm:w-fit text-sm flex items-center justify-center gap-2">
+                            <i class="fas fa-download text-lg"></i> تنزيل التطبيق (APK)
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- App 2: Gam3a Shopra -->
-            <div class="flex flex-col sm:flex-row gap-5 p-4 rounded-2xl hover:bg-playLightGray transition duration-200">
-                <img src="https://up6.cc/2025/06/175069752300521.png" alt="تطبيق جامعة شبرا" class="w-28 h-28 rounded-2xl play-shadow object-contain bg-white mx-auto sm:mx-0">
-                <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
-                    <h3 class="text-2xl font-medium text-gray-900">تطبيق جامعة شبرا</h3>
-                    <p class="text-playGreen font-medium text-sm mt-1">خالد محي الدين</p>
-                    <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-xs text-playGray font-medium">
-                        <span class="flex items-center"><span class="text-gray-900 ml-1">4.9</span> <i class="fas fa-star text-xs text-gray-900"></i></span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span>5K+ التنزيلات</span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span class="border border-gray-300 rounded px-1">E</span>
+            <!-- App 3: Gam3a Shopra -->
+            <div class="sand-card p-4 rounded-lg relative transition-transform duration-200 hover:-translate-y-1">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-24 h-24 mx-auto sm:mx-0 p-1 bg-white border-2 border-[#eaddc4] rounded shadow-sm shrink-0">
+                        <img src="https://up6.cc/2025/06/175069752300521.png" alt="تطبيق جامعة شبرا" class="w-full h-full object-contain rounded-sm">
                     </div>
-                    <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/gam3ashopra.apk"
-                        class="mt-4 bg-playGreen hover:bg-playGreenHover text-white text-center py-2 px-8 rounded-full font-medium transition-colors w-full sm:w-fit">
-                        تثبيت (APK)
-                    </a>
+                    <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
+                        <h3 class="text-xl font-extrabold text-pharaohBrown"> تطبيق جمعية تنمية المجتمع المحلي بشبراسندى </h3>
+                        <p class="text-[#4a2b18] font-bold text-sm mt-1">خالد محي الدين</p>
+                        <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-sm text-[#3e2414] font-extrabold">
+                            <span class="flex items-center gap-1 text-[#b88a44]">4.9 <i class="fas fa-star text-[11px]"></i></span>
+                            <span class="border-l-2 border-[#d4c39c] h-4"></span>
+                            <span>5K+ تنزيل</span>
+                        </div>
+                        <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/gam3ashopra.apk"
+                            class="mt-3 bg-[#eaddc4] hover:bg-[#d4c39c] text-[#1a0e08] border-2 border-[#cda870] text-center py-2 px-6 rounded font-extrabold transition-colors w-full sm:w-fit text-sm flex items-center justify-center gap-2">
+                            <i class="fas fa-download text-lg"></i> تنزيل التطبيق (APK)
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- App 3: Smart Password Vault -->
-            <div class="flex flex-col sm:flex-row gap-5 p-4 rounded-2xl hover:bg-playLightGray transition duration-200">
-                <img src="https://i.ibb.co/1YXWz5L2/icon.png" alt="الخزنة الذكية لكلمات السر" class="w-28 h-28 rounded-2xl play-shadow object-contain bg-white mx-auto sm:mx-0">
-                <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
-                    <h3 class="text-2xl font-medium text-gray-900">تطبيق الخزنة الذكية لكلمات السر</h3>
-                    <p class="text-playGreen font-medium text-sm mt-1">خالد محي الدين</p>
-                    <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-xs text-playGray font-medium">
-                        <span class="flex items-center"><span class="text-gray-900 ml-1">4.9</span> <i class="fas fa-star text-xs text-gray-900"></i></span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span>1K+ التنزيلات</span>
-                        <span class="border-l border-gray-300 h-3"></span>
-                        <span class="border border-gray-300 rounded px-1">E</span>
+            <!-- App 4: Smart Password Vault -->
+            <div class="sand-card p-4 rounded-lg relative transition-transform duration-200 hover:-translate-y-1">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-24 h-24 mx-auto sm:mx-0 p-1 bg-white border-2 border-[#eaddc4] rounded shadow-sm shrink-0">
+                        <img src="https://i.ibb.co/1YXWz5L2/icon.png" alt="الخزنة الذكية لكلمات السر" class="w-full h-full object-contain rounded-sm">
                     </div>
-                    <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/pas.apk"
-                        class="mt-4 bg-playGreen hover:bg-playGreenHover text-white text-center py-2 px-8 rounded-full font-medium transition-colors w-full sm:w-fit">
-                        تثبيت (APK)
-                    </a>
+                    <div class="flex-1 flex flex-col justify-center text-center sm:text-right">
+                        <h3 class="text-xl font-extrabold text-pharaohBrown">الخزنة الذكية لكلمات السر</h3>
+                        <p class="text-[#4a2b18] font-bold text-sm mt-1">خالد محي الدين</p>
+                        <div class="flex items-center justify-center sm:justify-start gap-3 mt-2 text-sm text-[#3e2414] font-extrabold">
+                            <span class="flex items-center gap-1 text-[#b88a44]">4.9 <i class="fas fa-star text-[11px]"></i></span>
+                            <span class="border-l-2 border-[#d4c39c] h-4"></span>
+                            <span>1K+ تنزيل</span>
+                        </div>
+                        <a href="https://github.com/khmohieldin/my-apk-app/raw/refs/heads/main/pas.apk"
+                            class="mt-3 bg-[#eaddc4] hover:bg-[#d4c39c] text-[#1a0e08] border-2 border-[#cda870] text-center py-2 px-6 rounded font-extrabold transition-colors w-full sm:w-fit text-sm flex items-center justify-center gap-2">
+                            <i class="fas fa-download text-lg"></i> تنزيل التطبيق (APK)
+                        </a>
+                    </div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Google Play Style "About this app" / Installation Guide -->
-        <div class="mt-12 pt-8 border-t border-playBorder">
-            <h2 class="text-xl font-medium mb-6 flex items-center gap-2">
-                حول هذا الإصدار (شرح التثبيت) <i class="fas fa-arrow-left text-playGray text-sm mr-auto"></i>
+        <div class="mt-12 pt-8 border-t-2 border-[#eaddc4]">
+            <h2 class="text-2xl font-extrabold mb-6 flex items-center gap-2 text-pharaohBrown">
+                <i class="fas fa-info-circle text-pharaohGold"></i> حول هذا الإصدار (شرح التثبيت)
             </h2>
             
-            <div class="bg-white border border-playBorder rounded-2xl p-6 mb-8 text-gray-700 leading-relaxed max-w-3xl">
-                <p class="mb-6 text-sm sm:text-base">
-                    نظراً لأنك تقوم بتحميل هذه التطبيقات بصيغة (APK) من خارج متجر <strong>Google Play</strong> الرسمي، سيقوم نظام الأندرويد بإظهار بعض الرسائل التحذيرية. <strong>هذه التطبيقات آمنة تماماً وخالية من الفيروسات</strong>. اتبع الخطوات التالية لتخطي التحذيرات:
+            <div class="bg-white p-6 rounded-lg text-[#2a170b] leading-relaxed max-w-3xl border-2 border-[#eaddc4] shadow-sm font-bold">
+                <p class="mb-6 text-base sm:text-lg">
+                    نظراً لأنك تقوم بتحميل هذه التطبيقات بصيغة (APK) من خارج متجر <strong>Google Play</strong> الرسمي، سيقوم نظام الأندرويد بإظهار بعض الرسائل التحذيرية. <strong class="text-pharaohGold text-xl">هذه التطبيقات آمنة تماماً وخالية من الفيروسات</strong>. اتبع الخطوات التالية لتخطي التحذيرات وتثبيت التطبيقات بنجاح:
                 </p>
 
-                <!-- الخطوة 1 -->
-                <div class="mb-6">
-                    <h3 class="font-medium text-gray-900 text-lg mb-2 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-playLightGray flex items-center justify-center text-sm">1</span> 
-                        تحذير التنزيل من المتصفح
-                    </h3>
-                    <p class="text-playGray text-sm mb-3">عند التحميل، ستظهر رسالة "قد يكون الملف ضاراً".</p>
-                    <div class="bg-playLightGray p-3 rounded-lg border border-playBorder inline-block">
-                        <span class="text-sm">← اضغط على: <strong class="text-blue-600">التنزيل على أي حال</strong></span>
-                    </div>
-                </div>
-
-                <!-- الخطوة 2 -->
-                <div class="mb-6">
-                    <h3 class="font-medium text-gray-900 text-lg mb-2 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-playLightGray flex items-center justify-center text-sm">2</span> 
-                        مصادر غير معروفة
-                    </h3>
-                    <p class="text-playGray text-sm mb-2">قد يطلب منك الهاتف السماح بتثبيت التطبيقات من المتصفح.</p>
-                    <div class="text-sm">
-                        اذهب إلى <strong>الإعدادات</strong> > <strong>الأمان</strong> > وفعل خيار <strong>"السماح من هذا المصدر"</strong>.
-                    </div>
-                </div>
-
-                <!-- الخطوة 3 -->
-                <div>
-                    <h3 class="font-medium text-gray-900 text-lg mb-2 flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-playLightGray flex items-center justify-center text-sm">3</span> 
-                        تحذير Play للحماية (Play Protect)
-                    </h3>
-                    <p class="text-playGray text-sm mb-3">أثناء التثبيت قد تظهر رسالة حمراء من جوجل بلاي.</p>
-                    <div class="border border-red-200 bg-red-50 p-4 rounded-xl relative max-w-sm">
-                        <div class="flex items-center gap-2 mb-2">
-                            <i class="fas fa-shield-alt text-red-500"></i>
-                            <span class="font-bold text-gray-800 text-sm">تطبيق غير معروف</span>
+                <div class="space-y-6">
+                    <!-- Step 1 -->
+                    <div>
+                        <h3 class="font-extrabold text-[#4a2b18] text-xl mb-2 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded bg-[#f4ebd0] border-2 border-[#d4c39c] flex items-center justify-center text-sm text-[#4a2b18]">1</span> 
+                            تحذير التنزيل من المتصفح
+                        </h3>
+                        <p class="text-[#3e2414] text-base mb-3">عند التحميل، ستظهر رسالة تخبرك أن "قد يكون الملف ضاراً".</p>
+                        <div class="bg-[#fcfaf5] p-3 rounded border-2 border-[#eaddc4] inline-block">
+                            <span class="text-base">← للتحميل اضغط على: <strong class="text-blue-700 font-extrabold text-lg">التنزيل على أي حال</strong></span>
                         </div>
-                        <p class="text-xs text-gray-600 mb-3">لا يمكن لـ Play للحماية التعرّف على مطوّر هذا التطبيق.</p>
-                        <div class="flex flex-col gap-1 text-sm font-medium">
-                            <span class="text-blue-600">مزيد من التفاصيل</span>
-                            <span class="text-red-600">التثبيت على أي حال</span>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div>
+                        <h3 class="font-extrabold text-[#4a2b18] text-xl mb-2 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded bg-[#f4ebd0] border-2 border-[#d4c39c] flex items-center justify-center text-sm text-[#4a2b18]">2</span> 
+                            مصادر غير معروفة (Unknown Sources)
+                        </h3>
+                        <p class="text-[#3e2414] text-base mb-2">قد يطلب منك الهاتف السماح بتثبيت التطبيقات من المتصفح.</p>
+                        <div class="text-base border-2 border-[#eaddc4] p-3 bg-[#fcfaf5] rounded inline-block">
+                            اذهب إلى <strong>الإعدادات</strong> > <strong>الأمان</strong> > وفعل خيار <strong class="text-[#4a2b18] text-lg">"السماح من هذا المصدر"</strong>.
                         </div>
-                        <div class="mt-3 text-xs bg-white p-2 rounded border border-red-100 font-bold">
-                            الحل: اضغط "مزيد من التفاصيل" ثم "التثبيت على أي حال"
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div>
+                        <h3 class="font-extrabold text-[#4a2b18] text-xl mb-2 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded bg-[#f4ebd0] border-2 border-[#d4c39c] flex items-center justify-center text-sm text-[#4a2b18]">3</span> 
+                            تحذير Play للحماية (Play Protect)
+                        </h3>
+                        <p class="text-[#3e2414] text-base mb-3">أثناء التثبيت قد تظهر رسالة من جوجل بلاي لأن التطبيق غير مرفوع على المتجر.</p>
+                        <div class="border-2 border-red-300 bg-red-50 p-4 rounded-lg relative max-w-sm">
+                            <div class="flex items-center gap-2 mb-2">
+                                <i class="fas fa-shield-alt text-red-600 text-xl"></i>
+                                <span class="font-extrabold text-gray-900 text-base">تطبيق غير معروف</span>
+                            </div>
+                            <div class="flex flex-col gap-2 text-base font-extrabold mb-3">
+                                <span class="text-blue-700">مزيد من التفاصيل</span>
+                                <span class="text-red-700">التثبيت على أي حال</span>
+                            </div>
+                            <div class="text-sm bg-white p-3 rounded border-2 border-red-200 text-gray-900">
+                                <strong class="text-red-700 text-base">الحل:</strong> اضغط على "مزيد من التفاصيل" ثم اختر "التثبيت على أي حال"
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -234,45 +262,48 @@
         </div>
     </main>
 
-    <!-- Footer & Contact Section -->
-    <footer class="border-t border-playBorder mt-auto py-8 bg-playLightGray">
-        <div class="container mx-auto px-4 max-w-5xl">
+    <footer class="border-t-2 border-[#eaddc4] mt-auto bg-[#f4ebd0]">
+        <div class="container mx-auto px-4 max-w-5xl py-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 
+                <!-- Contact Info -->
                 <div class="text-center md:text-right">
-                    <h3 class="text-lg font-bold text-gray-800 mb-1">دعم المطور</h3>
-                    <p class="text-playGray text-sm mb-4">للتواصل والاستفسارات، يسعدني تواصلكم عبر:</p>
+                    <h3 class="text-xl font-extrabold text-pharaohBrown mb-2">دعم المطور</h3>
+                    <p class="text-[#3e2414] font-bold text-base mb-4">للتواصل والاستفسارات، يسعدني تواصلكم عبر:</p>
                     
                     <div class="flex flex-wrap justify-center md:justify-start gap-3">
                         <a href="https://wa.me/201018282460" target="_blank"
-                            class="flex items-center gap-2 bg-white border border-playBorder hover:bg-gray-50 text-green-600 py-2 px-4 rounded-lg font-medium text-sm transition">
-                            <i class="fab fa-whatsapp text-lg"></i> واتساب
+                            class="flex items-center gap-2 bg-white border-2 border-[#eaddc4] hover:bg-green-50 text-green-700 py-2 px-5 rounded font-extrabold text-sm transition-colors">
+                            <i class="fab fa-whatsapp text-xl"></i> واتساب
                         </a>
                         
                         <a href="tel:+201018282460"
-                            class="flex items-center gap-2 bg-white border border-playBorder hover:bg-gray-50 text-blue-600 py-2 px-4 rounded-lg font-medium text-sm transition">
-                            <i class="fas fa-phone-alt text-md"></i> اتصال هاتفي
+                            class="flex items-center gap-2 bg-white border-2 border-[#eaddc4] hover:bg-blue-50 text-blue-700 py-2 px-5 rounded font-extrabold text-sm transition-colors">
+                            <i class="fas fa-phone-alt text-lg"></i> اتصال هاتفي
                         </a>
                         
                         <a href="https://www.facebook.com/khaledmohyalden" target="_blank"
-                            class="flex items-center gap-2 bg-white border border-playBorder hover:bg-gray-50 text-blue-800 py-2 px-4 rounded-lg font-medium text-sm transition">
-                            <i class="fab fa-facebook-f text-md w-4"></i> فيسبوك
+                            class="flex items-center gap-2 bg-white border-2 border-[#eaddc4] hover:bg-blue-50 text-blue-800 py-2 px-5 rounded font-extrabold text-sm transition-colors">
+                            <i class="fab fa-facebook-f text-lg w-5 text-center"></i> فيسبوك
                         </a>
                     </div>
                 </div>
 
-                <div class="text-center md:text-left text-sm text-playGray border-t md:border-t-0 md:border-r border-playBorder pt-4 md:pt-0 md:pr-8 flex flex-col items-center md:items-start">
-                    <img src="https://up6.cc/2025/06/175069752300521.png" alt="شعار المطور" class="w-12 h-12 object-contain mb-2 grayscale opacity-60">
-                    <div>
+                <!-- Copyright & Counter -->
+                <div class="text-center md:text-left text-base font-bold text-[#3e2414] border-t-2 md:border-t-0 border-[#d4c39c] pt-5 md:pt-0 flex flex-col items-center md:items-end w-full md:w-auto">
+                    <div class="flex items-center gap-2 mb-2 opacity-90">
+                        <i class="fas fa-ankh text-pharaohGold text-xl"></i>
+                        <span class="font-extrabold text-lg text-pharaohBrown">Anubis Apps</span>
+                    </div>
+                    <div class="leading-relaxed">
                         &copy; <span id="year"></span> تطوير خالد محي الدين.<br>
                         جميع الحقوق محفوظة.
                     </div>
                     
-                    <!-- عداد الزوار بناءً على الـ IP -->
-                    <div class="mt-4 p-2 bg-white rounded-lg border border-playBorder inline-block play-shadow">
-                        <p class="text-xs mb-1 text-gray-500 font-medium text-center">إحصائيات الزوار (IP):</p>
-                        <!-- خدمة مجانية لتتبع الزيارات باستخدام IP -->
-                        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=khaled-developer-apps-store&count_bg=%2301875F&title_bg=%235F6368&icon=&icon_color=%23E7E7E7&title=%D8%A7%D9%84%D8%B2%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA&edge_flat=true" alt="عداد الزوار" class="mx-auto">
+                    <div class="mt-4 p-3 bg-white rounded border-2 border-[#eaddc4] inline-block shadow-sm">
+                        <p class="text-sm mb-2 text-[#4a2b18] font-extrabold text-center">إحصائيات الزوار:</p>
+                        <!-- تم إضافة id للصورة لتحديثها برمجياً -->
+                        <img id="visitorCounter" alt="عداد الزوار" class="mx-auto rounded-sm h-6">
                     </div>
                 </div>
 
@@ -281,7 +312,15 @@
     </footer>
 
     <script>
+        // تحديث السنة التلقائي
         document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // تشغيل عداد الزوار الحقيقي ومنع المتصفح من تخزين الصورة مؤقتاً (Cache Bypass)
+        const counterImg = document.getElementById('visitorCounter');
+        // استخدام مسار فريد للمتجر الخاص بك (تقدر تغير الاسم لو حبيت تصفر العداد في المستقبل)
+        const counterUrl = "https://api.visitorbadge.io/api/visitors?path=khaled-anubis-apps-store-v2&label=الزيارات&labelColor=%23f4ebd0&countColor=%23b88a44";
+        // إضافة الوقت الحالي للرابط لمنع الكاش وإجبار المتصفح على جلب الرقم الجديد دائماً
+        counterImg.src = counterUrl + "&_t=" + new Date().getTime();
     </script>
 </body>
 </html>
