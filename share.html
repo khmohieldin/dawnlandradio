@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">راديو خالد - كارت الاستماع والمشاركة 📻</title>
+
+    <!-- Open Graph / WhatsApp / Facebook Meta Tags -->
+    <meta property="og:type" content="music.song" />
+    <meta property="og:site_name" content="راديو خالد" />
+    <meta id="og-title" property="og:title" content="راديو خالد - رحلة إلى الزمن الجميل" />
+    <meta id="og-desc" property="og:description" content="استمع الآن إلى أجمل روائع الدراما والإذاعة المصرية الكلاسيكية عبر راديو خالد." />
+    <meta id="og-image" property="og:image" content="https://i.ibb.co/sp6xBm7K/Picsart-26-03-30-18-16-08-102.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" href="https://i.ibb.co/sp6xBm7K/Picsart-26-03-30-18-16-08-102.png">
+
+    <!-- Fonts & Icons & Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%);
+            min-height: 100vh;
+        }
+
+        /* كارت الراديو الفيكتوري الكرتوني */
+        .player-card {
+            background: #ffffff;
+            border: 3px solid #2563eb;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px -10px rgba(37, 99, 235, 0.25), 0 0 0 6px rgba(191, 219, 254, 0.45);
+        }
+
+        /* أزرار كرتونية مجسمة ثلاثية الأبعاد */
+        .vintage-btn {
+            background: linear-gradient(to bottom, #3b82f6, #2563eb);
+            border: 2px solid #1d4ed8;
+            box-shadow: 0 4px 0 #1e3a8a, 0 6px 14px rgba(37, 99, 235, 0.3);
+            transition: all 0.15s ease;
+        }
+        .vintage-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #1e3a8a, 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        .cta-btn {
+            background: linear-gradient(to bottom, #10b981, #059669);
+            border: 2px solid #047857;
+            box-shadow: 0 4px 0 #065f46, 0 6px 14px rgba(16, 185, 129, 0.3);
+            transition: all 0.15s ease;
+        }
+        .cta-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #065f46, 0 2px 6px rgba(16, 185, 129, 0.3);
+        }
+
+        .custom-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #2563eb;
+            border: 3px solid #ffffff;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+            transition: transform 0.1s;
+        }
+        .custom-range::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        /* حركة دوران الغلاف فقط أثناء التشغيل - بدون أي حركة للنصوص */
+        @keyframes vinyl-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .vinyl-spinning {
+            animation: vinyl-rotate 14s linear infinite;
+        }
+        .vinyl-paused {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-3 sm:p-6 select-none">
+
+    <!-- الحاوية المركزية لكارت المشاركة -->
+    <div class="w-full max-w-md player-card p-5 sm:p-6 my-auto text-slate-800 relative overflow-hidden">
+        
+        <!-- الترويسة العلوية للكارت -->
+        <div class="flex items-center justify-between pb-4 border-b-2 border-blue-100 gap-3">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md border-2 border-blue-700 shrink-0">
+                    <i data-lucide="radio" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-black text-blue-950 leading-tight">راديو خالد</h1>
+                    <p class="text-[11px] font-bold text-slate-500">رحلة إلى الزمن الجميل</p>
+                </div>
+            </div>
+            <span class="px-2.5 py-1 bg-blue-50 text-blue-700 text-[11px] font-extrabold rounded-full border border-blue-200 shadow-xs flex items-center gap-1">
+                <span id="live-pulse" class="w-2 h-2 rounded-full bg-blue-600"></span>
+                <span>مشغل البث</span>
+            </span>
+        </div>
+
+        <!-- غلاف المقطع ومعلومات العمل -->
+        <div class="flex flex-col items-center text-center my-5">
+            <div class="relative w-36 h-36 rounded-full p-1.5 bg-gradient-to-tr from-blue-600 via-indigo-500 to-sky-400 shadow-xl mb-4">
+                <div id="cover-disc" class="w-full h-full rounded-full overflow-hidden border-4 border-white bg-slate-100 flex items-center justify-center vinyl-spinning vinyl-paused">
+                    <img id="card-cover" src="https://i.ibb.co/sp6xBm7K/Picsart-26-03-30-18-16-08-102.png" alt="غلاف المقطع" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute inset-0 m-auto w-7 h-7 rounded-full bg-white border-2 border-blue-600 shadow-md pointer-events-none flex items-center justify-center">
+                    <div class="w-2.5 h-2.5 rounded-full bg-blue-600"></div>
+                </div>
+            </div>
+
+            <!-- اسم المقطع وصاحب العمل (ثابت تماماً بدون أي أنميشن) -->
+            <h2 id="card-title" class="text-lg sm:text-xl font-black text-blue-950 px-2 line-clamp-2 leading-relaxed">
+                راديو خالد
+            </h2>
+            <p id="card-author" class="text-xs font-bold text-blue-600 mt-1 bg-blue-50 px-3 py-0.5 rounded-full border border-blue-100 inline-block">
+                @روائع_الإذاعة
+            </p>
+        </div>
+
+        <!-- شريط التقدم والوقت -->
+        <div class="space-y-1.5 mb-4">
+            <div class="flex items-center justify-between text-xs font-mono font-bold text-slate-500 px-1" dir="ltr">
+                <span id="time-current">0:00</span>
+                <span id="time-duration">0:00</span>
+            </div>
+            
+            <div id="progress-container" class="w-full h-3.5 bg-blue-100 rounded-full overflow-hidden cursor-pointer relative border border-blue-200 shadow-inner">
+                <div id="progress-bar" class="h-full bg-blue-600 rounded-full transition-none" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- أزرار التحكم الكاملة (تشغيل/إيقاف، تقديم 15 ثانية، ترجيع 15 ثانية، تكرار) -->
+        <div class="flex items-center justify-center gap-3 sm:gap-4 mb-4">
+            <button id="btn-loop" onclick="toggleLoop()" class="p-2.5 rounded-2xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all" title="تكرار المقطع">
+                <i data-lucide="repeat" class="w-5 h-5"></i>
+            </button>
+
+            <button onclick="seekSeconds(-15)" class="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-2xl transition-all active:scale-95 border border-blue-200 flex flex-col items-center justify-center shadow-xs" title="ترجيع 15 ثانية">
+                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                <span class="text-[9px] font-mono font-bold -mt-0.5">15-</span>
+            </button>
+
+            <button id="btn-play-pause" onclick="togglePlayPause()" class="w-16 h-16 rounded-full vintage-btn flex items-center justify-center text-white shadow-xl active:scale-95 transition-transform" title="تشغيل / إيقاف">
+                <i id="play-icon" data-lucide="play" class="w-7 h-7 fill-white translate-x-0.5"></i>
+            </button>
+
+            <button onclick="seekSeconds(15)" class="p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-2xl transition-all active:scale-95 border border-blue-200 flex flex-col items-center justify-center shadow-xs" title="تقديم 15 ثانية">
+                <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+                <span class="text-[9px] font-mono font-bold -mt-0.5">15+</span>
+            </button>
+
+            <button onclick="restartTrack()" class="p-2.5 rounded-2xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all" title="من البداية">
+                <i data-lucide="skip-back" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- تحكم مستوى الصوت (تعلية وتوطية) -->
+        <div class="flex items-center gap-2.5 bg-blue-50/70 border border-blue-200 px-3 py-2 rounded-2xl mb-4 shadow-xs">
+            <button id="btn-volume-icon" onclick="toggleMute()" class="text-blue-600 hover:text-blue-800 transition-colors shrink-0">
+                <i id="vol-icon" data-lucide="volume-2" class="w-4 h-4"></i>
+            </button>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1" class="flex-1 h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer custom-range" oninput="changeVolume(this.value)" title="مستوى الصوت" />
+            <span id="vol-text" class="text-[11px] font-mono font-bold w-10 text-center py-0.5 rounded-lg text-blue-700 bg-white border border-blue-200 shrink-0">100%</span>
+        </div>
+
+        <!-- رسالة حالة التشغيل التلقائي -->
+        <div id="autoplay-banner" class="hidden mb-4 p-2.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold text-center flex items-center justify-center gap-1.5 cursor-pointer" onclick="togglePlayPause()">
+            <i data-lucide="play-circle" class="w-4 h-4 text-amber-600"></i>
+            <span>اضغط هنا لتشغيل المقطع مباشرة 🎵</span>
+        </div>
+
+        <!-- زر تحميل التطبيق البارز والمميز -->
+        <a id="btn-download-app" href="https://github.com/khmohieldin/dawnlandradio/raw/main/RadioKhaled.apk" download class="w-full py-3.5 px-4 cta-btn text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2.5 shadow-lg mb-4 text-center cursor-pointer">
+            <i data-lucide="download" class="w-5 h-5"></i>
+            <span>📲 تحميل تطبيق راديو خالد للأندرويد (APK)</span>
+        </a>
+
+        <!-- بيانات المطور وروابط التواصل -->
+        <footer class="pt-3 border-t-2 border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+            <p class="text-slate-600 font-bold">
+                تطوير <span class="text-blue-700 font-extrabold">خالد محي الدين</span>
+            </p>
+            <div class="flex items-center gap-3 font-bold">
+                <a href="tel:00201018282460" class="flex items-center gap-1 text-slate-700 hover:text-blue-600 transition-colors" title="اتصال">
+                    <i data-lucide="phone" class="w-3.5 h-3.5 text-blue-600"></i>
+                    <span dir="ltr">01018282460</span>
+                </a>
+                <a href="https://wa.me/201018282460" target="_blank" class="flex items-center gap-1 text-slate-700 hover:text-emerald-600 transition-colors" title="واتساب">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+                    <span>واتساب</span>
+                </a>
+                <a href="https://www.facebook.com/khaledmohyalden" target="_blank" class="flex items-center gap-1 text-slate-700 hover:text-blue-600 transition-colors" title="فيسبوك">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5 text-blue-600"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    <span>فيسبوك</span>
+                </a>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- عنصر الصوت الخفي -->
+    <audio id="audio" crossorigin="anonymous" preload="auto"></audio>
+
+    <script>
+        // قراءة المعاملات من الرابط (Query Parameters)
+        const params = new URLSearchParams(window.location.search);
+        const title = params.get('t') || params.get('title') || 'راديو خالد';
+        const author = params.get('a') || params.get('author') || 'رحلة إلى الزمن الجميل';
+        const audioSrc = params.get('src') || params.get('audio') || 'https://stream.radiojar.com/8s5u8tpdtwzuv'; // إذاعة القرآن الكريم كافتراضي
+        const coverSrc = params.get('c') || params.get('cover') || 'https://i.ibb.co/sp6xBm7K/Picsart-26-03-30-18-16-08-102.png';
+        const appDownloadUrl = params.get('app') || 'https://github.com/khmohieldin/dawnlandradio/raw/main/RadioKhaled.apk';
+
+        // تحديث عناصر الصفحة
+        document.getElementById('page-title').innerText = `${title} - راديو خالد 📻`;
+        document.getElementById('card-title').innerText = title;
+        document.getElementById('card-author').innerText = author.startsWith('@') ? author : `@${author}`;
+        document.getElementById('card-cover').src = coverSrc;
+        document.getElementById('btn-download-app').href = appDownloadUrl;
+
+        // تحديث الميتا تاج التلقائي للمشاركة
+        const ogTitle = document.getElementById('og-title');
+        const ogDesc = document.getElementById('og-desc');
+        const ogImage = document.getElementById('og-image');
+        if (ogTitle) ogTitle.content = `${title} • راديو خالد`;
+        if (ogDesc) ogDesc.content = `استمع الآن إلى "${title}" (${author}) عبر راديو خالد 📻✨`;
+        if (ogImage) ogImage.content = coverSrc;
+
+        // عناصر مشغل الصوت
+        const audio = document.getElementById('audio');
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const playIcon = document.getElementById('play-icon');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const timeCurrent = document.getElementById('time-current');
+        const timeDuration = document.getElementById('time-duration');
+        const coverDisc = document.getElementById('cover-disc');
+        const livePulse = document.getElementById('live-pulse');
+        const volumeSlider = document.getElementById('volume-slider');
+        const volText = document.getElementById('vol-text');
+        const volIcon = document.getElementById('vol-icon');
+        const autoplayBanner = document.getElementById('autoplay-banner');
+
+        audio.src = audioSrc;
+
+        function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) return '0:00';
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function updatePlayState(isPlaying) {
+            if (isPlaying) {
+                playIcon.setAttribute('data-lucide', 'pause');
+                coverDisc.classList.remove('vinyl-paused');
+                livePulse.classList.add('animate-ping');
+                autoplayBanner.classList.add('hidden');
+            } else {
+                playIcon.setAttribute('data-lucide', 'play');
+                coverDisc.classList.add('vinyl-paused');
+                livePulse.classList.remove('animate-ping');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    updatePlayState(true);
+                }).catch(err => {
+                    console.warn("Play blocked:", err);
+                    autoplayBanner.classList.remove('hidden');
+                });
+            } else {
+                audio.pause();
+                updatePlayState(false);
+            }
+        }
+
+        function seekSeconds(secs) {
+            if (!audio.duration) return;
+            audio.currentTime = Math.max(0, Math.min(audio.duration, audio.currentTime + secs));
+        }
+
+        function restartTrack() {
+            audio.currentTime = 0;
+            audio.play().then(() => updatePlayState(true)).catch(() => {});
+        }
+
+        let isLooping = false;
+        function toggleLoop() {
+            isLooping = !isLooping;
+            audio.loop = isLooping;
+            const loopBtn = document.getElementById('btn-loop');
+            if (isLooping) {
+                loopBtn.classList.remove('text-slate-400');
+                loopBtn.classList.add('text-blue-600', 'bg-blue-50');
+            } else {
+                loopBtn.classList.add('text-slate-400');
+                loopBtn.classList.remove('text-blue-600', 'bg-blue-50');
+            }
+        }
+
+        function changeVolume(val) {
+            audio.volume = val;
+            volText.innerText = `${Math.round(val * 100)}%`;
+            if (val == 0) {
+                volIcon.setAttribute('data-lucide', 'volume-x');
+            } else if (val < 0.5) {
+                volIcon.setAttribute('data-lucide', 'volume-1');
+            } else {
+                volIcon.setAttribute('data-lucide', 'volume-2');
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        let previousVolume = 1;
+        function toggleMute() {
+            if (audio.volume > 0) {
+                previousVolume = audio.volume;
+                changeVolume(0);
+                volumeSlider.value = 0;
+            } else {
+                const restore = previousVolume || 1;
+                changeVolume(restore);
+                volumeSlider.value = restore;
+            }
+        }
+
+        // تحديث شريط التقدم
+        audio.addEventListener('timeupdate', () => {
+            const current = audio.currentTime;
+            const duration = audio.duration;
+            timeCurrent.innerText = formatTime(current);
+            if (duration && !isNaN(duration) && duration > 0) {
+                timeDuration.innerText = formatTime(duration);
+                progressBar.style.width = `${(current / duration) * 100}%`;
+            } else {
+                timeDuration.innerText = 'بث مباشر';
+            }
+        });
+
+        audio.addEventListener('play', () => updatePlayState(true));
+        audio.addEventListener('pause', () => updatePlayState(false));
+        audio.addEventListener('ended', () => updatePlayState(false));
+
+        // النقر على شريط التقدم لتغيير موضع التشغيل
+        progressContainer.addEventListener('click', (e) => {
+            if (!audio.duration) return;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percent = Math.max(0, Math.min(1, clickX / rect.width));
+            audio.currentTime = percent * audio.duration;
+        });
+
+        // محاولة التشغيل التلقائي عند فتح الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    updatePlayState(true);
+                }).catch(() => {
+                    // إذا حظر المتصفح التشغيل التلقائي يظهر البانر التفاعلي
+                    updatePlayState(false);
+                    autoplayBanner.classList.remove('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
